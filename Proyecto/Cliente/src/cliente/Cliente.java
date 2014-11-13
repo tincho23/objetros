@@ -29,18 +29,20 @@ public class Cliente {
     public static void main(String[] args) {
         // TODO code application logic here
        
-       PrintWriter out;
+        PrintWriter out;
         BufferedReader in;
         
         try{
             Socket socket = new Socket("localhost",3307);
-            out = new PrintWriter(socket.getOutputStream(),true);
+            out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out.println("mensaje cliente");
+            System.out.println(in.readLine());     
             
-            while (true){
-            out.println("<MESSAGE TYPE=\"ADD\"><USERNAME>juan</USERNAME><PASSWORD>123456</PASSWORD></MESSAGE>");
-            }
-            //System.out.println(in.readLine());
+         //   out.println("<MESSAGE TYPE=\"ADD\"><USERNAME>juan</USERNAME><PASSWORD>123456</PASSWORD></MESSAGE>");
+         
+            
+         
         }
         catch (Exception e){ e.printStackTrace(); }
     }

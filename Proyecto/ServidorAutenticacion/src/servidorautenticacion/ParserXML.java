@@ -36,9 +36,23 @@ public class ParserXML extends Parser {
       }
         return null;
         
-        
     }
+   
+    ParserXML(String xml){
+        String tipo=getTipo(xml);
+        if  ("ADD".equals(tipo)){
+          //  ParserABMAXML ABMAXML = new ParserABMAXML();
+          //  String[] parametros = ABMAXML.parsearAdd(xml);
+            
 
+            // new Mapper();
+            System.out.println("ParserXML");
+        }
+    }
+    
         
 }
+
+        
+
 

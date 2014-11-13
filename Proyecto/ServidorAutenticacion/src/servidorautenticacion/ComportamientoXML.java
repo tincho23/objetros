@@ -12,4 +12,14 @@ package servidorautenticacion;
  */
 public class ComportamientoXML extends Comportamiento{
     
-}
+
+     
+    ComportamientoXML(String xml) {
+        new ParserXML(xml);  
+        }
+    }
+
+   
+
+
+

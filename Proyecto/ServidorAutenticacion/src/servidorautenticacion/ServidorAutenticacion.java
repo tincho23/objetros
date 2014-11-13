@@ -26,25 +26,23 @@ public class ServidorAutenticacion {
         
        ServerSocket servidor = null;
        Socket socket = null;
-       PrintWriter out;
+       PrintWriter out = null;
        BufferedReader in;
        try {
             servidor = new ServerSocket(3307);
             socket = servidor.accept();
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String message = in.readLine();
-            ParserXML prueba = new ParserXML();
-            String tipo = prueba.getTipo(message);
-            System.out.println(tipo);
+            out = new PrintWriter(socket.getOutputStream(), true);
             
-      //      InputSource is = new InputSource(new StringReader(message));
-      //      org.w3c.dom.Document xmlDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
-      //      XPath xpath = XPathFactory.newInstance().newXPath();
-      //      String tipo = (String)xpath.evaluate("@TYPE",xmlDoc.getDocumentElement(),XPathConstants.STRING);
-      //      System.out.println(tipo);
+            out.println("respuesta servidor");
+            System.out.println(in.readLine());
+          
+      //      String message = in.readLine();
+     
+      //      new ComportamientoXML(message);
             
             //Respuesta
-            out = new PrintWriter(socket.getOutputStream(), true);
+        //    out = new PrintWriter(socket.getOutputStream(), true);
        } catch (Exception e) {
             e.printStackTrace();
         }

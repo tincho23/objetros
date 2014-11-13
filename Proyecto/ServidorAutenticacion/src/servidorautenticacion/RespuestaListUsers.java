@@ -3,19 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package servidorautenticacion;
 
 /**
  *
- * @author Tincho
+ * @author JorgeLuis
  */
-public class ParserABMAXML extends ParserABMA{
-    public String[] parsearAdd(String xml){
-        String[] parametros = null;
-        
-        
-        return parametros;
-    }
+public class RespuestaListUsers {
     
 }
