@@ -11,5 +11,10 @@ package servidorautenticacion;
  * @author Tincho
  */
 public class ParserMensaje extends Parser {
+
+    @Override
+    public String getTipo(String entrada) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

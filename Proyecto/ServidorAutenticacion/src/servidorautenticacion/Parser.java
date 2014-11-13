@@ -10,6 +10,7 @@ package servidorautenticacion;
  *
  * @author Tincho
  */
-public class Parser {
-    
+public abstract class Parser {
+    public abstract String getTipo(String entrada);
+                
 }
