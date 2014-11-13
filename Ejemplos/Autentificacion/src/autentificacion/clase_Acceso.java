@@ -3,7 +3,18 @@ package autentificacion;
 import java.sql.*;
 import javax.swing.JOptionPane;
 
+/**
+ * Clase de acceso
+ * @author Tincho
+ */
 public class clase_Acceso {
+    /**
+     * Para el acceso a la base de datos
+     * >
+     * 
+     * @param username Este es el usuario de la base de datos
+     * @param password 1Esta es la contraseña del usuario
+     */
     public void acceso(String username, String password){
          System.out.println("juancho te cago la petiza");
         Connection conexion;
