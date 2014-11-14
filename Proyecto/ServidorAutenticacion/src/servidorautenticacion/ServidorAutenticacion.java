@@ -31,21 +31,14 @@ public class ServidorAutenticacion {
        try {
             servidor = new ServerSocket(3307);
             socket = servidor.accept();
+            String ip=socket.getRemoteSocketAddress().toString();
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
-            
-            out.println("respuesta servidor");
-            System.out.println(in.readLine());
-          
-      //      String message = in.readLine();
-     
-      //      new ComportamientoXML(message);
-            
-            //Respuesta
-        //    out = new PrintWriter(socket.getOutputStream(), true);
+            String datosEntrada = in.readLine();
+            String respuesta=new ParserXML().respuesta(datosEntrada);
+            out.println(respuesta);
        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
 }

@@ -3,24 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package servidorautenticacion;
 
 /**
  *
- * @author Tincho
+ * @author JorgeLuis
  */
-public class ComportamientoXML extends Comportamiento{
+public class ParserAdd {
     
-
-     
-    ComportamientoXML(String xml) {
-     //   new ParserXML(xml);  
-        
-        }
-    }
-
-   
-
-
-
+}

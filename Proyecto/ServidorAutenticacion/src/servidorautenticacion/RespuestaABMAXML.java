@@ -6,6 +6,10 @@
 
 package servidorautenticacion;
 
+import static java.lang.System.out;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -25,43 +29,21 @@ import org.w3c.dom.Text;
  * @author Tincho
  */
 public class RespuestaABMAXML extends RespuestaABMA{
-        public static void generarXmlABMA(String name, boolean error, String descripcionError) throws Exception{
-       
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            DOMImplementation implementation = builder.getDOMImplementation();
-            Document document = implementation.createDocument(null, name, null);
-            document.setXmlVersion("1.0");
  
-            //Main Node
-            Element raiz = document.getDocumentElement();
-            Element itemNode = document.createElement("ACK");
-            if (error){
-               
-                Element keyNode1 = document.createElement("DESC");
-                Text nodeKeyValue1 = document.createTextNode(descripcionError);
-                keyNode1.appendChild(nodeKeyValue1);
+        public String generarXmlABMA(boolean error){
+   
+            String estado;
+            String descripcion;
+            if (!error){
+                estado="ERROR";
+                descripcion="No se ha podido ingresar el usuario";
             }else{
-                name= name+"'OK'";
+                estado="OK";
+                descripcion="";
             }
-                                //append itemNode to raiz
-                raiz.appendChild(itemNode); //pegamos el elemento a la raiz "Documento"
-                           
-            //Generar XML
-            Source source = new DOMSource(document);
-            //Indicamos donde lo queremos almacenar
-            Result result = new StreamResult(new java.io.File(name+".xml")); //nombre del archivo
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.transform(source, result);
+          String mensaje= "<ACK STATUS=\""+estado+"\"><DESC>"+descripcion+"</DESC></ACK>";   
+          return mensaje;
+    }
         
-    }
-    
-  public static void main(String[] args) {
-    String nombre_archivo = "ACK";
-       boolean error=true;
-       String descripcionError="Motivo del error";
-        try {
-            generarXmlABMA(nombre_archivo, error, descripcionError);
-        } catch (Exception e) {}
-    }
 }
+ 

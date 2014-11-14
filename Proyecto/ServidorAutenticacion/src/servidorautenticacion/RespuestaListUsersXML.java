@@ -5,7 +5,20 @@
  */
 package servidorautenticacion;
 
+import static com.sun.deploy.uitoolkit.impl.fx.DeployPerfLogger.timestamp;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Result;
@@ -24,60 +37,18 @@ import org.w3c.dom.Text;
  * @author JorgeLuis
  */
 public class RespuestaListUsersXML extends RespuestaListUsers{
-    public static void generarXmlListUsers(String name, ArrayList<String> username,ArrayList<String> timestamp) throws Exception{
-        //Considerar posibles causas de error para adjuntarlas al mensaje
-        if(username.isEmpty() || timestamp.isEmpty() || username.size()!=timestamp.size()){
-            System.out.println("ERROR");
-        }else{
- 
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            DOMImplementation implementation = builder.getDOMImplementation();
-            Document document = implementation.createDocument(null, name, null);
-            document.setXmlVersion("1.0");
- 
-            //Main Node
-            Element raiz = document.getDocumentElement();
-            //Por cada key creamos un item que contendrá la key y el value
-            for(int i=0; i<username.size();i++){
-                //Item Node
-                Element itemNode = document.createElement("USER");
-                //Key Node
-                Element keyNode = document.createElement("USERNAME");
-                Text nodeKeyValue = document.createTextNode(username.get(i));
-                keyNode.appendChild(nodeKeyValue);
-                itemNode.appendChild(keyNode);
-                
-                Element keyNode1 = document.createElement("TIMESTAMP");
-                Text nodeKeyValue1 = document.createTextNode(timestamp.get(i));
-                keyNode1.appendChild(nodeKeyValue1); 
-                   
-                itemNode.appendChild(keyNode1);
-                //append itemNode to raiz
-                raiz.appendChild(itemNode); //pegamos el elemento a la raiz "Documento"
-            }                
-            //Generar XML
-            Source source = new DOMSource(document);
-            //Indicamos donde lo queremos almacenar
-            Result result = new StreamResult(new java.io.File(name+".xml")); //nombre del archivo
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.transform(source, result);
+    public static String generarXmlListUsers(ResultSet tabla) throws SQLException{
+      DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String mensaje="<LIST-USERS>";
+        while(tabla.next()){
+            System.out.println( tabla.getString("username"));
+            mensaje=mensaje+"<USER><USERNAME>"+tabla.getString("username")+"</USERNAME><TIMESTAMP>"+format.format(tabla.getTimestamp("timestamp"));
         }
-    }
-    
-  public static void main(String[] args) {
-    String nombre_archivo = "LIST-USERS";
-        ArrayList vectorUsername = new ArrayList();
-        ArrayList vectorTimestamp = new ArrayList();
- 
-        vectorUsername.add("usuario1");
-        vectorTimestamp.add("fecha1");
-        
-        vectorUsername.add("usuario2");
-        vectorTimestamp.add("fecha2");
-      
-        try {
-            generarXmlListUsers(nombre_archivo, vectorUsername, vectorTimestamp);
-        } catch (Exception e) {}
-    }
+        mensaje = mensaje + "</LIST-USERS>"; 
+        return mensaje;
+  }
 }
+
+
+  
+  
