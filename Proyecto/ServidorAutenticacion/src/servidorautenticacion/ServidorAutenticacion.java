@@ -23,15 +23,33 @@ public class ServidorAutenticacion {
     
     /**
      * Método del Servidor para la coordinación
+     * @param args
      */
+    
+    public static void main(String[] args) {
+        // TODO code application logic here
+          new ServidorAutenticacion();
+       
+    }
     public ServidorAutenticacion(){
          
-      obtenerPropiedadesConfig();
-      ServerSocket servidor = null;
+       obtenerPropiedadesConfig();
+       ServerSocket servidor = null;
        Socket socket = null;
-       PrintWriter out = null;
-       BufferedReader in;
-       try {
+       
+        try{
+          servidor = new ServerSocket(this.puerto);
+  
+          while (true){
+              socket = servidor.accept();  
+                      
+              new Thread (new ControlServidorXML(socket,passAdmin)).start();
+          }
+    
+         }
+      catch (Exception e) { e.printStackTrace(); }      
+    
+ /*      try {
             servidor = new ServerSocket(puerto);
             socket = servidor.accept();
             //Obtener direccion IP del host que se conecta al servidor
@@ -45,9 +63,10 @@ public class ServidorAutenticacion {
           
             String respuesta= new ParserXML().respuesta(datosEntrada,iphost,passAdmin);
             out.println(respuesta);
+     
           
        } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException | SQLException e) {
-     }
+     } */
     }
         
     /**

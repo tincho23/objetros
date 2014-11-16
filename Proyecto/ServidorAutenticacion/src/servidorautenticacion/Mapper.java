@@ -46,7 +46,6 @@ ArrayList<String> error = new ArrayList<>();
         try{
             consulta= cn.createStatement();
             consulta.executeUpdate("INSERT INTO usuarios (username, password, timestamp) VALUES('"+usernameADD+"','"+passwordADD+"',"+"NOW())");
-            JOptionPane.showMessageDialog(null, "Usuario ingresado correctamente");
             error.add("TRUE");
             return error;
         }catch 
@@ -187,7 +186,7 @@ ArrayList<String> error = new ArrayList<>();
         consulta= cn.createStatement();
         tabla=consulta.executeQuery("SELECT username FROM usuarios WHERE username='"+usernameAUT+"' AND password='"+passwordAUT+"'");
         if(tabla.next()){
-            tabla=consulta.executeQuery("INSERT INTO autenticaciones (username, host, timestamp) VALUES('"+usernameAUT+"','"+hostAUT+"',"+"NOW())");
+            consulta.executeUpdate("INSERT INTO autenticaciones (username, host, timestamp) VALUES('"+usernameAUT+"','"+hostAUT+"',"+"NOW())");
             error.add("OK");
             return error;
         }else{

@@ -26,6 +26,7 @@ import org.xml.sax.SAXException;
  * @author Blanco - Matus - Herlein
  */
 public class ParserXML implements Runnable {
+    
 
     /**
      * Método que obtiene el tipo de mensaje 

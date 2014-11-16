@@ -36,6 +36,7 @@ public class Conectar {
             this.urlconexion= propiedades.getProperty("urlconexion");
             this.usuariodb= propiedades.getProperty("usuariodb");
             this.passdb= propiedades.getProperty("passdb");
+            
    
         } catch (IOException ex) {
             }
@@ -49,10 +50,10 @@ public class Conectar {
      */
     public Connection conexion() {
         try{
-            //obtenerPropiedadesConexion();
+            obtenerPropiedadesConexion();
             Class.forName("com.mysql.jdbc.Driver");           
-            //con=DriverManager.getConnection(urlconexion,usuariodb,passdb);
-            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/autentificaciones","root","");
+            con=DriverManager.getConnection(urlconexion,usuariodb,passdb);
+            //con=DriverManager.getConnection("jdbc:mysql://localhost:3306/autentificaciones","root","");
             System.out.println("Conexion Establecida");
                        
             
