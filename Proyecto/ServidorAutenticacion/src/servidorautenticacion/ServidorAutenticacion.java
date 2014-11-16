@@ -43,30 +43,12 @@ public class ServidorAutenticacion {
           while (true){
               socket = servidor.accept();  
                       
-              new Thread (new ControlServidorXML(socket,passAdmin)).start();
+              new Thread (new ServidorXML(socket,passAdmin)).start();
           }
     
          }
       catch (Exception e) { e.printStackTrace(); }      
     
- /*      try {
-            servidor = new ServerSocket(puerto);
-            socket = servidor.accept();
-            //Obtener direccion IP del host que se conecta al servidor
-            SocketAddress remoteaddress = socket.getRemoteSocketAddress();
-            String iphost = remoteaddress.toString();
-            iphost = iphost.substring(1,iphost.indexOf(":"));
-            
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(socket.getOutputStream(), true);
-            String datosEntrada = in.readLine();
-          
-            String respuesta= new ParserXML().respuesta(datosEntrada,iphost,passAdmin);
-            out.println(respuesta);
-     
-          
-       } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException | SQLException e) {
-     } */
     }
         
     /**
