@@ -6,15 +6,14 @@
 
 package servidorautenticacion;
 
-/**
- *
- * @author Tincho
- */
-public class ParserMensaje extends Parser {
+import java.sql.Connection;
+import java.util.ArrayList;
 
-    @Override
-    public String getTipo(String entrada) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+/**
+ * Clase que implementa la funcionalidad embebida en el servidor
+ * @author Blanco - Matus - Herlein
+ */
+public class ParserMensaje {
+     
+   
 }

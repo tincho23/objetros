@@ -5,10 +5,6 @@
  */
 package servidorautenticacion;
 
-/**
- *
- * @author JorgeLuis
- */
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -21,7 +17,20 @@ import javax.xml.xpath.XPathFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public class ParserRemoveXML extends ParserRemove {
+/**
+ * Clase que parsea los mensajes XML de eliminar usuario
+ * @author Blanco - Matus - Herlein
+ */
+public class ParserRemoveXML {
+    /**
+     * Método que obtiene los atributos de los mensajes XML de eliminar usuario
+     * @param entrada Mensaje XML
+     * @return Nombre de Usuario y Contraseña de administrador
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     * @throws XPathExpressionException 
+     */
     public ArrayList<String> getAtributos(String entrada)throws ParserConfigurationException, SAXException, IOException, XPathExpressionException{
         InputSource is = new InputSource(new StringReader(entrada));
         org.w3c.dom.Document xmlDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);

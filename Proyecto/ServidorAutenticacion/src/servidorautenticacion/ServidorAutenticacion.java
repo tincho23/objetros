@@ -7,38 +7,69 @@
 package servidorautenticacion;
 import java.io.*;
 import java.net.*;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
-import org.xml.sax.InputSource;
+import java.sql.SQLException;
+import java.util.Properties;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+import org.xml.sax.SAXException;
 /**
- *
+ * Clase que instancia el servidor
  * @author Blanco-Matus-Herlein
  */
 public class ServidorAutenticacion {
-
+    
+    String passAdmin;
+    int puerto;
+    
     /**
-     * @param args the command line arguments
+     * Método del Servidor para la coordinación
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        
-       ServerSocket servidor = null;
+    public ServidorAutenticacion(){
+         
+      obtenerPropiedadesConfig();
+      ServerSocket servidor = null;
        Socket socket = null;
        PrintWriter out = null;
        BufferedReader in;
        try {
-            servidor = new ServerSocket(3307);
+            servidor = new ServerSocket(puerto);
             socket = servidor.accept();
-            String ip=socket.getRemoteSocketAddress().toString();
+            //Obtener direccion IP del host que se conecta al servidor
+            SocketAddress remoteaddress = socket.getRemoteSocketAddress();
+            String iphost = remoteaddress.toString();
+            iphost = iphost.substring(1,iphost.indexOf(":"));
+            
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
             String datosEntrada = in.readLine();
-            String respuesta=new ParserXML().respuesta(datosEntrada);
+          
+            String respuesta= new ParserXML().respuesta(datosEntrada,iphost,passAdmin);
             out.println(respuesta);
-       } catch (Exception e) {
-            e.printStackTrace();
-        }
+          
+       } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException | SQLException e) {
+     }
     }
+        
+    /**
+     * Método para obtener las propiedades de configutación
+     */
+private void obtenerPropiedadesConfig() {
+        
+        Properties propiedades = new Properties();
+        InputStream archivo = null;
+        
+        try {
+            archivo = new FileInputStream("ConfiguracionServer.properties");
+            // cargamos el archivo de propiedades
+            propiedades.load(archivo);
+            // obtenemos las propiedades y las almacenamos
+
+                                          
+            this.passAdmin= propiedades.getProperty("passwordadmin");
+            this.puerto=Integer.parseInt(propiedades.getProperty("puerto"));
+            
+   
+        } catch (IOException ex) {
+            }
+        }
 }

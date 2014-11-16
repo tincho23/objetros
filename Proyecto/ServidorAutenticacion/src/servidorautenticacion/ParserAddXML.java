@@ -18,11 +18,20 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- *
- * @author JorgeLuis
+ * Clase que parsea los mensajes XML de agregar usuario
+ * @author Blanco-Matus-Herlein
  */
-public class ParserAddXML extends ParserAdd{
+public class ParserAddXML{
     
+    /**
+     * Método que obtiene los atributos de los mensajes XML de agregar usuario
+     * @param entrada Mensaje XML
+     * @return Nombre de Usuario, Contraseña y Contraseña del Administrador
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     * @throws XPathExpressionException 
+     */
     public ArrayList<String> getAtributos(String entrada)throws ParserConfigurationException, SAXException, IOException, XPathExpressionException{
         InputSource is = new InputSource(new StringReader(entrada));
         org.w3c.dom.Document xmlDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);

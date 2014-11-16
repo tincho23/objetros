@@ -5,7 +5,6 @@
  */
 
 package servidorautenticacion;
-
 import static java.lang.System.out;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -13,36 +12,33 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Text;
 
-/**
- *
- * @author Tincho
- */
-public class RespuestaABMAXML extends RespuestaABMA{
  
-        public String generarXmlABMA(boolean error){
+/**
+ * Clase que genera las respuestas ACK a los mensajes de alta, baja, modificación y autenticación
+ * @author Blanco - Matus - Herlein
+ */
+public class RespuestaABMAXML{
+
+       /**
+        * Método que genera las respuestas XML a los mensajes de alta, baja, modificación y autenticación
+        * @param error Variable que indica el estado y el tipo de error en caso de que se produzca el mismo
+        * @return Mensaje XML
+        */     
+       public String generarXmlABMA(ArrayList<String> error){
    
             String estado;
             String descripcion;
-            if (!error){
+            if ("ERROR".equals(error.get(0))){
                 estado="ERROR";
-                descripcion="No se ha podido ingresar el usuario";
+                descripcion=error.get(1);
             }else{
                 estado="OK";
                 descripcion="";
             }
           String mensaje= "<ACK STATUS=\""+estado+"\"><DESC>"+descripcion+"</DESC></ACK>";   
           return mensaje;
+          
     }
         
 }
