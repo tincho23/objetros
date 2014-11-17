@@ -5,27 +5,21 @@
  */
 
 package servidorautenticacion;
-import static java.lang.System.out;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
  
 /**
  * Clase que genera las respuestas ACK a los mensajes de alta, baja, modificación y autenticación
  * @author Blanco - Matus - Herlein
  */
-public class RespuestaABMAXML{
+public class RespuestaABMAXML extends RespuestaXML{
 
        /**
         * Método que genera las respuestas XML a los mensajes de alta, baja, modificación y autenticación
         * @param error Variable que indica el estado y el tipo de error en caso de que se produzca el mismo
         * @return Mensaje XML
-        */     
-       public String generarXmlABMA(ArrayList<String> error){
+        */
+       public String generarRespuesta(ArrayList<String> error){
    
             String estado;
             String descripcion;
@@ -40,6 +34,9 @@ public class RespuestaABMAXML{
           return mensaje;
           
     }
+
+    
+    
         
 }
  

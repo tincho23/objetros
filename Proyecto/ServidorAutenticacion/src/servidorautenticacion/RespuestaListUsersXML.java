@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
  * Clase que genera respuesta en formato XML a los mensajes del  tipo Listar Usuarios 
  * @author Blanco - Matus - Herlein
  */
-public class RespuestaListUsersXML{
+public class RespuestaListUsersXML extends RespuestaXML{
     /**
      * Método que genera las respuestas XML a los mensajes del tipo Listar Usuarios
      * @param tabla Lista de Usuarios
@@ -24,7 +24,7 @@ public class RespuestaListUsersXML{
      * @throws SQLException 
      */
     
-    public static String generarXmlListUsers(ResultSet tabla) throws SQLException{
+    public static String generarRespuesta(ResultSet tabla) throws SQLException{
       DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String mensaje="<LIST-USERS>";
         while(tabla.next()){

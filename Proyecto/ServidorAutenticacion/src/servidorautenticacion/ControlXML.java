@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
  * Comanda el parseo de los mensajes y la generación de la respuestas a ellos
  * @author Blanco - Matus - Herlein
  */
-public class ControlXML implements Runnable {
+public class ControlXML{
     
 
     /**
@@ -60,94 +60,87 @@ public class ControlXML implements Runnable {
      * @throws XPathExpressionException
      * @throws SQLException 
      */
+    ArrayList<String> error=new ArrayList<>();
+    ArrayList<String> resultadoAccion=null;
+    
+        
     public String respuesta(String datos, String ip, String passAdmin) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, SQLException{   
       String tipo=getTipo(datos);
       System.out.println(tipo);
         if (tipo.equals("ADD")){
             ArrayList<String> atributosAdd=new ParserAddXML().getAtributos(datos);
-            ArrayList<String> resultadoAccion;
-            if (!passAdmin.equals(atributosAdd.get(2))){
-                ArrayList<String> error=new ArrayList<>();
-                error.add("ERROR");
-                error.add("Contraseña de administrador incorrecta");
-                String respuesta = new RespuestaABMAXML().generarXmlABMA(error);
+            if (passAdmin.equals(atributosAdd.get(2))){
+                resultadoAccion = new Mapper().add(atributosAdd.get(0), atributosAdd.get(1));
+                String respuesta = new RespuestaABMAXML().generarRespuesta(resultadoAccion);
                 return respuesta;
             }else{
-                resultadoAccion = new Mapper().add(atributosAdd.get(0), atributosAdd.get(1));
-                String respuesta = new RespuestaABMAXML().generarXmlABMA(resultadoAccion);
+                error.add("ERROR");
+                error.add("Contraseña de administrador incorrecta");
+                String respuesta = new RespuestaABMAXML().generarRespuesta(error);
                 return respuesta;
             }
         }
+        
         if (tipo.equals("REMOVE")){
             ArrayList<String> atributosAdd=new ParserRemoveXML().getAtributos(datos);
-            if (!passAdmin.equals(atributosAdd.get(1))){
-                ArrayList<String> error=new ArrayList<>();
-                error.add("ERROR");
-                error.add("Contraseña de administrador incorrecta");
-                String respuesta = new RespuestaABMAXML().generarXmlABMA(error);
+            if (passAdmin.equals(atributosAdd.get(1))){
+                resultadoAccion = new Mapper().remove(atributosAdd.get(0));
+                String respuesta = new RespuestaABMAXML().generarRespuesta(resultadoAccion);
                 return respuesta;
             }else{
-                ArrayList<String> resultadoAccion=new Mapper().remove(atributosAdd.get(0));
-                String respuesta = new RespuestaABMAXML().generarXmlABMA(resultadoAccion);
+                error.add("ERROR");
+                error.add("Contraseña de administrador incorrecta");
+                String respuesta = new RespuestaABMAXML().generarRespuesta(error);
                 return respuesta;
             }
         }
+        
         if (tipo.equals("MODIFY")){
             ArrayList<String> atributosAdd=new ParserModifyXML().getAtributos(datos);
             ArrayList<String> resultadoAccion=new Mapper().modify(atributosAdd.get(0),atributosAdd.get(1),atributosAdd.get(2));
-            String respuesta = new RespuestaABMAXML().generarXmlABMA(resultadoAccion);
+            String respuesta = new RespuestaABMAXML().generarRespuesta(resultadoAccion);
             return respuesta;
         }
          if (tipo.equals("AUTHENTICATE")){
-            ArrayList<String> atributosAdd=new ParserAutXML().getAtributos(datos);
+            ArrayList<String> atributosAdd=new ParserAutenticacion().getAtributos(datos);
             ArrayList<String> resultadoAccion=new Mapper().autenticar(atributosAdd.get(0), atributosAdd.get(1), ip);
-            String respuesta = new RespuestaABMAXML().generarXmlABMA(resultadoAccion);
+            String respuesta = new RespuestaABMAXML().generarRespuesta(resultadoAccion);
             return respuesta;
-            
         }
-         if (tipo.equals("LIST-USERS")){ //revisar
+         
+        if (tipo.equals("LIST-USERS")){ //revisar
             ArrayList<String> atributosAdd=new ParserListUsersXML().getAtributos(datos);
-            if (!passAdmin.equals(atributosAdd.get(0))){
-                ArrayList<String> error=new ArrayList<>();
-                error.add("ERROR");
-                error.add("Contraseña de administrador incorrecta");
-                String respuesta = new RespuestaABMAXML().generarXmlABMA(error);
-                return respuesta;
-            }else{
+            if (passAdmin.equals(atributosAdd.get(0))){
                 ResultSet resultadoAccion=new Mapper().listUsers();
-                String respuesta = RespuestaListUsersXML.generarXmlListUsers(resultadoAccion);
+                String respuesta = RespuestaListUsersXML.generarRespuesta(resultadoAccion);
+                return respuesta;
+            }else{
+                error.add("ERROR");
+                error.add("Contraseña de administrador incorrecta");
+                String respuesta = new RespuestaABMAXML().generarRespuesta(error);
                 return respuesta;
             }
-            
         }
-         if (tipo.equals("LIST-AUT")){
+        
+        if (tipo.equals("LIST-AUT")){
             ArrayList<String> atributosAdd=new ParserListAutXML().getAtributos(datos);
-            if (!passAdmin.equals(atributosAdd.get(1))){
+            if (passAdmin.equals(atributosAdd.get(1))){
+                ResultSet resultadoAccion=new Mapper().listAut(atributosAdd.get(0));
+                String respuesta = RespuestaListAutXml.generarRespuesta(resultadoAccion);
+                return respuesta;
+            }else{
                 ArrayList<String> error=new ArrayList<>();
                 error.add("ERROR");
                 error.add("Contraseña de administrador incorrecta");
-                String respuesta = new RespuestaABMAXML().generarXmlABMA(error);
-                return respuesta;
-            }else{
-                ResultSet resultadoAccion=new Mapper().listAut(atributosAdd.get(0));
-                String respuesta = RespuestaListAutXml.generarXmlListAut(resultadoAccion);
+                String respuesta = new RespuestaABMAXML().generarRespuesta(error);
                 return respuesta;
             }
             
         }
-        return null;
+        
+        return "Mensaje Invalido";
       
     }
-
-    @Override
-    /**
-     * Convierte todos los métodos de la clase a abstractos
-     */
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
 }
     
    

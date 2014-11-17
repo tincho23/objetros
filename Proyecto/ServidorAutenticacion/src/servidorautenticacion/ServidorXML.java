@@ -20,7 +20,7 @@ import java.net.SocketAddress;
 public class ServidorXML implements Runnable{
     private Socket socket;
     private String passAdmin;
-   public ServidorXML(Socket socket, String passAdmin){
+    public ServidorXML(Socket socket, String passAdmin){
        this.socket=socket;
        this.passAdmin=passAdmin;
        

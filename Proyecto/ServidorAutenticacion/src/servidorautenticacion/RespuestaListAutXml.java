@@ -16,14 +16,15 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 
-public class RespuestaListAutXml {
+public class RespuestaListAutXml extends RespuestaXML{
     /**
      * Método que genera las respuestas XML a los mensajes del tipo Listar Usuarios
      * @param tabla Lista de Autenticaciones
      * @return Mensaje XML
      * @throws SQLException 
      */
-    public static String generarXmlListAut(ResultSet tabla) throws SQLException{
+ //   public static String generarXmlListAut(ResultSet tabla) throws SQLException{
+    public static String generarRespuesta(ResultSet tabla) throws SQLException{
       DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String mensaje="<LIST-AUT>";
         while(tabla.next()){
